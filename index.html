@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="moderaptor-api" content="https://moderate-admissions.tiagcoimbra.workers.dev" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://moderate-admissions.tiagcoimbra.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#f5f6f2" />
+    <title>Admissão · MODEЯATE</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#application">Saltar para o formulário</a>
+    <main>
+      <header class="brand">
+        <a href="./" aria-label="MODEЯATE, início"
+          >MODE<span>Я</span>ATE<span
+            class="brand-dot"
+            aria-hidden="true"
+          ></span></a
+        ><span class="brand-caption">COMUNIDADE · ENGENHARIA INFORMÁTICA</span>
+      </header>
+      <aside id="demo" class="demo" hidden>
+        <strong>Versão de demonstração</strong>
+        <p>
+          Apenas dados fictícios. Não envia emails, não verifica perfis reais e
+          não altera grupos.
+        </p>
+        <label for="example">Experimentar um percurso</label
+        ><select id="example">
+          <option value="">Escolher exemplo…</option>
+        </select>
+      </aside>
+      <section class="intro">
+        <p class="eyebrow">GRUPO FILTRADO DE ENGENHARIA INFORMÁTICA</p>
+        <h1>O teu próximo passo<br />na comunidade.</h1>
+        <p>
+          Preenche a admissão e confirma o teu email UAb.<br
+            class="desktop"
+          />
+          Se já tens um registo, vamos recuperar o teu histórico.
+        </p>
+      </section>
+      <div id="load-error" class="notice error" role="alert" hidden></div>
+      <form id="application" class="form-card" novalidate>
+        <div class="form-heading">
+          <h2>Admissão ao grupo</h2>
+          <span>* Campos obrigatórios</span>
+        </div>
+        <div
+          id="form-error"
+          class="notice error"
+          role="alert"
+          tabindex="-1"
+          hidden
+        ></div>
+        <div class="field">
+          <label for="name">Nome <span aria-hidden="true">*</span></label
+          ><input
+            id="name"
+            name="name"
+            autocomplete="name"
+            placeholder="Nome no perfil Moodle"
+            aria-describedby="name-hint name-error"
+            minlength="2"
+            maxlength="120"
+            required
+          />
+          <p class="hint" id="name-hint">
+            O nome tem de corresponder ao que consta no teu perfil Moodle.
+            Mantém os nomes, apelidos e a ordem em que aparecem.
+          </p>
+          <p class="field-error" id="name-error"></p>
+        </div>
+        <div class="two-columns">
+          <div class="field">
+            <label for="studentNumber"
+              >Email UAb <span aria-hidden="true">*</span></label
+            >
+            <div class="compound email">
+              <input
+                id="studentNumber"
+                name="studentNumber"
+                inputmode="numeric"
+                pattern="[0-9]{1,16}"
+                maxlength="16"
+                placeholder="N.º de estudante"
+                aria-describedby="email-hint studentNumber-error"
+                required
+              /><span id="email-domain">@estudante.uab.pt</span>
+            </div>
+            <p class="hint" id="email-hint">
+              Preenche apenas o número de estudante.
+            </p>
+            <p class="field-error" id="studentNumber-error"></p>
+          </div>
+          <fieldset class="field phone-field">
+            <legend>Telemóvel <span aria-hidden="true">*</span></legend>
+            <div class="phone">
+              <label class="sr-only" for="countryCode">Indicativo</label
+              ><input
+                id="countryCode"
+                name="countryCode"
+                value="+351"
+                inputmode="tel"
+                autocomplete="tel-country-code"
+                aria-describedby="countryCode-error"
+                pattern="\+[1-9][0-9]{0,2}"
+                maxlength="4"
+                required
+              /><label class="sr-only" for="phone">Número de telemóvel</label
+              ><input
+                id="phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel-national"
+                inputmode="tel"
+                placeholder="Número de telemóvel"
+                maxlength="20"
+                aria-describedby="phone-error"
+                required
+              />
+            </div>
+            <p class="field-error" id="countryCode-error"></p>
+            <p class="field-error" id="phone-error"></p>
+          </fieldset>
+        </div>
+        <section class="verification" aria-label="Confirmação do email">
+          <p class="hint" id="privacy-before-code">
+            Ao pedires o código, a Equipa de Moderação recebe o teu número de
+            estudante e usa o email institucional para confirmar que tens acesso
+            à caixa. O serviço guarda uma sessão temporária e o Gmail envia a
+            mensagem. <a id="privacy-code-link" hidden target="_blank"
+            rel="noopener noreferrer">Consulta o aviso de privacidade antes de continuar.</a>
+            Dúvidas sobre os teus dados:
+            <a href="mailto:admissoesleiuab@gmail.com">admissoesleiuab@gmail.com</a>.
+          </p>
+          <div class="verify-header">
+            <div>
+              <strong id="email-state">Confirma o teu email</strong>
+              <p class="hint">Enviamos um código para o endereço indicado.</p>
+              <p id="code-validity" class="hint" hidden></p>
+            </div>
+            <button type="button" id="send-code" class="secondary" disabled aria-describedby="privacy-before-code">
+              Enviar código
+            </button>
+          </div>
+          <div id="code-area" hidden>
+            <label for="code">Código de confirmação</label>
+            <div class="code-line">
+              <input
+                id="code"
+                name="code"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                aria-describedby="code-message code-countdown"
+                maxlength="6"
+                pattern="[0-9]{6}"
+                placeholder="6 algarismos"
+              /><button type="button" id="verify-code" class="secondary">
+                Confirmar
+              </button>
+            </div>
+            <p id="code-message" class="hint" role="status"></p>
+            <p id="code-countdown" class="hint" hidden>Tempo restante para confirmar: <strong id="code-clock" role="timer" aria-live="off"></strong></p>
+          </div>
+          <p id="verify-message" class="field-error" role="status"></p>
+        </section>
+        <div class="field">
+          <div class="label-line">
+            <label for="moodleId"
+              >Perfil Moodle <span aria-hidden="true">*</span></label
+            ><button
+              class="help-button"
+              type="button"
+              id="help-button"
+              aria-expanded="false"
+              aria-controls="moodle-help"
+              aria-label="Como encontrar o ID do perfil Moodle"
+            >
+              ?
+            </button>
+          </div>
+          <div class="compound moodle">
+            <span>https://elearning.uab.pt/user/profile.php?id=</span
+            ><input
+              id="moodleId"
+              name="moodleId"
+              inputmode="numeric"
+              pattern="[1-9][0-9]{0,11}"
+              maxlength="12"
+              placeholder="ID do perfil"
+              aria-describedby="moodle-hint moodleId-error"
+              required
+            />
+          </div>
+          <p class="hint" id="moodle-hint">
+            O ID do perfil Moodle é diferente do número de estudante.
+          </p>
+          <div id="moodle-help" class="help-panel" hidden>
+            Abre o teu perfil no Moodle da UAb e copia os algarismos que
+            aparecem depois de <code>id=</code> no endereço. Não precisas de
+            partilhar a tua palavra-passe.
+          </div>
+          <p class="field-error" id="moodleId-error"></p>
+        </div>
+        <details class="rules" id="rules">
+          <summary>
+            Regras do grupo<span class="chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="details-body">
+            <div id="rules-copy"></div>
+            <a id="rules-link" target="_blank" rel="noopener noreferrer" hidden
+              >Ler o regulamento completo</a
+            >
+          </div>
+        </details>
+        <div class="accept">
+          <input
+            id="acceptRules"
+            name="acceptRules"
+            type="checkbox"
+            required
+            aria-describedby="acceptRules-error"
+          /><label for="acceptRules"
+            >Compreendo e aceito as Regras do Grupo
+            <span aria-hidden="true">*</span></label
+          >
+        </div>
+        <p class="field-error" id="acceptRules-error"></p>
+        <section class="courses" aria-labelledby="courses-title">
+          <h3 id="courses-title">UCs pretendidas <span>Opcional</span></h3>
+          <p>
+            Podes já escolher os grupos das UCs que pretendes integrar. Também
+            poderás pedir acesso mais tarde, no WhatsApp.
+          </p>
+          <p class="video-note">
+            O acesso aos grupos de UC só abre depois de validado o vídeo de
+            apresentação.
+          </p>
+          <div class="years" id="years"></div>
+          <p class="field-error" id="courses-error"></p>
+        </section>
+        <div class="trap" aria-hidden="true">
+          <label for="website">Website</label
+          ><input
+            id="website"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+        <button class="submit" id="submit" type="submit" disabled>
+          <span>Validar e submeter pedido de admissão</span
+          ><span aria-hidden="true">→</span>
+        </button>
+        <p class="submission-note">
+          Os dados são usados pela equipa de moderação para tratar a tua
+          admissão.<a
+            id="privacy-link"
+            hidden
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacidade</a
+          >
+        </p>
+      </form>
+      <section
+        id="result"
+        class="result-card"
+        tabindex="-1"
+        hidden
+        aria-live="polite"
+      >
+        <span class="result-symbol" aria-hidden="true">✓</span>
+        <p class="eyebrow" id="result-eyebrow">ADMISSÃO RECEBIDA</p>
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+        <div class="reference">
+          <span>Referência</span><strong id="result-reference"></strong>
+        </div>
+        <p id="result-access" class="hint"></p>
+        <button id="refresh-status" type="button" class="secondary">Atualizar estado</button>
+        <p id="status-message" class="hint" role="status"></p>
+        <button id="restart" type="button" class="secondary">
+          Voltar ao formulário
+        </button>
+      </section>
+      <footer>
+        <span>MODEЯATE · Uma comunidade, com cuidado.</span
+        ><a id="contact" href="mailto:admissoesleiuab@gmail.com">Contactar a moderação</a>
+      </footer>
+      <noscript
+        ><p class="notice error">
+          Ativa o JavaScript para validar os campos e confirmar o teu email.
+        </p></noscript
+      >
+    </main>
+  </body>
+</html>
