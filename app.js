@@ -46,7 +46,9 @@ function setVerified(value) {
   $("code-validity").hidden = value || !Number.isFinite(config?.codeTtlSeconds);
   $("verify-message").classList.toggle("success", value);
   $("verify-message").textContent = value
-    ? "Código válido. Email confirmado. Podes continuar a preencher o formulário."
+    ? config?.emailTestOnly
+      ? "Código válido. Entrega do email confirmada. As admissões continuam fechadas."
+      : "Código válido. Email confirmado. Podes continuar a preencher o formulário."
     : "";
   if (value) {
     stopCountdown();
@@ -225,7 +227,7 @@ $("verify-code").addEventListener("click", async () => {
     try {
       const status = await api("status");
       if (status.status !== "not_submitted") showResult(status);
-      else $("moodleId").focus();
+      else if (!config.emailTestOnly) $("moodleId").focus();
     } catch {
       $("verify-message").textContent += " Não foi possível consultar o estado da candidatura. Tenta atualizar a página.";
     }
@@ -255,7 +257,7 @@ $("help-button").addEventListener("click", () => {
 });
 $("application").addEventListener("submit", async (e) => {
   e.preventDefault();
-  if (busy || !config) return;
+  if (busy || !config || config.emailTestOnly) return;
   clearErrors();
   try {
     required();
@@ -387,7 +389,7 @@ try {
       $(id).href = privacy.href;
       $(id).hidden = false;
     }
-  } else if (config.mode !== "demo") {
+  } else if (config.mode !== "demo" && !config.emailTestOnly) {
     throw new Error("O aviso de privacidade não está disponível.");
   }
   if (config.contactEmail) {
@@ -459,7 +461,14 @@ try {
       $("example").append(option);
     }
   }
-  $("submit").disabled = false;
+  $("submit").disabled = !!config.emailTestOnly;
+  if (config.emailTestOnly) {
+    $("load-error").textContent = "As admissões estão fechadas. Apenas o administrador autorizado pode testar a confirmação do email. Nenhum pedido de admissão será submetido.";
+    $("load-error").hidden = false;
+    for (const id of ["name", "countryCode", "phone", "moodleId", "acceptRules"])
+      $(id).disabled = true;
+    for (const input of document.querySelectorAll('input[name="course"]')) input.disabled = true;
+  }
   $("send-code").disabled = false;
   try {
     const r = await api("status");
