@@ -131,22 +131,14 @@
           </fieldset>
         </div>
         <section class="verification" aria-label="Confirmação do email">
-          <p class="hint" id="privacy-before-code">
-            Ao pedires o código, a Equipa de Moderação recebe o teu número de
-            estudante e usa o email institucional para confirmar que tens acesso
-            à caixa. O serviço guarda uma sessão temporária e o Gmail envia a
-            mensagem. <a id="privacy-code-link" hidden target="_blank"
-            rel="noopener noreferrer">Consulta o aviso de privacidade antes de continuar.</a>
-            Dúvidas sobre os teus dados:
-            <a href="mailto:admissoesleiuab@gmail.com">admissoesleiuab@gmail.com</a>.
-          </p>
+          <p class="hint" id="privacy-before-code" hidden></p>
           <div class="verify-header">
             <div>
               <strong id="email-state">Confirma o teu email</strong>
               <p class="hint">Enviamos um código para o endereço indicado.</p>
               <p id="code-validity" class="hint" hidden></p>
             </div>
-            <button type="button" id="send-code" class="secondary" disabled aria-describedby="privacy-before-code">
+            <button type="button" id="send-code" class="secondary" disabled>
               Enviar código
             </button>
           </div>
@@ -261,7 +253,12 @@
         </button>
         <p class="submission-note">
           Os dados são usados pela equipa de moderação para tratar a tua
-          admissão.<a
+          admissão.
+        </p>
+        <p class="submission-note">
+          O serviço guarda uma sessão temporária ao enviar a mensagem. Em caso
+          de dúvidas sobre os teus dados, por favor contacta:
+          <a href="mailto:admissoesleiuab@gmail.com">admissoesleiuab@gmail.com</a>.<a
             id="privacy-link"
             hidden
             target="_blank"

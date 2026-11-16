@@ -384,11 +384,8 @@ try {
     if (privacy.username || privacy.password ||
         (privacy.protocol !== "https:" && !(config.mode === "demo" && privacy.origin === location.origin)))
       throw new Error("O aviso de privacidade não está disponível.");
-    for (const id of ["privacy-link", "privacy-code-link"]) {
-      if (!$(id)) continue;
-      $(id).href = privacy.href;
-      $(id).hidden = false;
-    }
+    $("privacy-link").href = privacy.href;
+    $("privacy-link").hidden = false;
   } else if (config.mode !== "demo" && !config.emailTestOnly) {
     throw new Error("O aviso de privacidade não está disponível.");
   }
@@ -453,6 +450,7 @@ try {
   }
   if (config.mode === "demo") {
     $("privacy-before-code").textContent = "Esta demonstração usa apenas dados fictícios. O código é apresentado no ecrã e nenhum email é enviado.";
+    $("privacy-before-code").hidden = false;
     $("demo").hidden = false;
     for (const example of config.examples) {
       const option = document.createElement("option");
