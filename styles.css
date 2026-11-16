@@ -553,8 +553,8 @@ footer {
   gap: 10px;
 }
 .brand-compact img:first-child {
-  width: 116px;
-  height: auto;
+  width: 48px;
+  height: 48px;
 }
 .brand-compact img:last-child {
   width: 30px;
